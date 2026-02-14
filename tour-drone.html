@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Extérieurs — drone (démo) — Démo Signature Visuelle</title>
+  <style>
+    :root{ --bg:#0b0b0f; --line: rgba(255,255,255,.10); --text:#f3f3f8; --muted:#a7a7b5; --accent:#8b5cf6; }
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0; background:var(--bg); color:var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;}
+    .top{position:sticky; top:0; background: rgba(11,11,15,.7); backdrop-filter: blur(10px); border-bottom:1px solid var(--line); padding:10px 12px; display:flex; gap:10px; align-items:center; justify-content:space-between;}
+    .pill{border:1px solid var(--line); color:var(--muted); border-radius:999px; padding:8px 10px; background: rgba(255,255,255,.03); font-size:13px}
+    .btn{border:1px solid rgba(139,92,246,.55); background: rgba(139,92,246,.10); color:var(--text); border-radius:14px; padding:10px 12px; cursor:pointer; font-weight:700}
+    .wrap{height: calc(100% - 54px); display:flex; flex-direction:column}
+    .viewer{flex:1; position:relative; border-top:1px solid var(--line);}
+    .pan{position:absolute; inset:0; background-image: url("data:image/svg+xml;charset=utf-8,%0A%20%20%20%20%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%222400%22%20height%3D%22900%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20x2%3D%221%22%20y1%3D%220%22%20y2%3D%221%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%220%22%20stop-color%3D%22%2306b6d4%22%20stop-opacity%3D%220.95%22/%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2322c55e%22%20stop-opacity%3D%220.95%22/%3E%0A%20%20%20%20%20%20%20%20%3C/linearGradient%3E%0A%20%20%20%20%20%20%20%20%3Cfilter%20id%3D%22blur%22%3E%3CfeGaussianBlur%20stdDeviation%3D%2234%22/%3E%3C/filter%3E%0A%20%20%20%20%20%20%3C/defs%3E%0A%20%20%20%20%20%20%3Crect%20width%3D%222400%22%20height%3D%22900%22%20fill%3D%22%230b0b0f%22/%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%22520%22%20cy%3D%22280%22%20r%3D%22360%22%20fill%3D%22url%28%23g%29%22%20filter%3D%22url%28%23blur%29%22%20opacity%3D%220.70%22/%3E%0A%20%20%20%20%20%20%3Ccircle%20cx%3D%221750%22%20cy%3D%22620%22%20r%3D%22520%22%20fill%3D%22url%28%23g%29%22%20filter%3D%22url%28%23blur%29%22%20opacity%3D%220.45%22/%3E%0A%20%20%20%20%20%20%3Crect%20x%3D%2270%22%20y%3D%2270%22%20width%3D%222260%22%20height%3D%22760%22%20rx%3D%2244%22%20fill%3D%22rgba%2811%2C11%2C15%2C.30%29%22%20stroke%3D%22rgba%28255%2C255%2C255%2C.22%29%22/%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%22140%22%20y%3D%22220%22%20fill%3D%22rgba%28255%2C255%2C255%2C.94%29%22%20font-size%3D%2276%22%20font-family%3D%22ui-sans-serif%2C%20system-ui%22%20font-weight%3D%22900%22%3EExt%C3%A9rieurs%20%E2%80%94%20drone%20%28d%C3%A9mo%29%3C/text%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%22140%22%20y%3D%22300%22%20fill%3D%22rgba%28255%2C255%2C255%2C.75%29%22%20font-size%3D%2230%22%20font-family%3D%22ui-sans-serif%2C%20system-ui%22%3ED%C3%A9mo%20%E2%80%94%20Visite%20virtuelle%20%28simulation%29%3C/text%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%22140%22%20y%3D%22720%22%20fill%3D%22rgba%28255%2C255%2C255%2C.80%29%22%20font-size%3D%2226%22%20font-family%3D%22ui-sans-serif%2C%20system-ui%22%3ESignature%20Visuelle%20%C2%B7%20360%C2%B0%20%C2%B7%20Drone%20%C2%B7%20Contenus%3C/text%3E%0A%20%20%20%20%20%20%3Ctext%20x%3D%221920%22%20y%3D%22820%22%20fill%3D%22rgba%28255%2C255%2C255%2C.45%29%22%20font-size%3D%2218%22%20font-family%3D%22ui-sans-serif%2C%20system-ui%22%3EFaites%20glisser%20/%20fl%C3%A8ches%20%E2%86%90%20%E2%86%92%3C/text%3E%0A%20%20%20%20%3C/svg%3E%0A%20%20%20%20"); background-repeat: repeat-x; background-size: cover; background-position: 0% 50%;}
+    .hint{position:absolute; left:12px; bottom:12px; right:12px; display:flex; gap:10px; flex-wrap:wrap;}
+    .card{border:1px solid var(--line); background: rgba(0,0,0,.28); border-radius:16px; padding:10px 12px; color:var(--muted); font-size:13px}
+    .card b{color:var(--text)}
+    .dot{width:10px; height:10px; border-radius:999px; background: rgba(139,92,246,.85); display:inline-block; margin-right:8px}
+  </style>
+</head>
+<body>
+  <div class="top">
+    <div>
+      <div style="font-weight:900; letter-spacing:-.02em">Extérieurs — drone (démo)</div>
+      <div style="color:var(--muted); font-size:12px">Simulation 360° (démo) — remplaçable par Kuula / Matterport / Marzipano</div>
+    </div>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <span class="pill">← → pour tourner</span>
+      <button class="btn" id="reset">Recentrer</button>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="viewer" id="viewer">
+      <div class="pan" id="pan"></div>
+      <div class="hint">
+        <div class="card"><span class="dot"></span><b>Démo</b> : le mouvement simule une rotation 360°.</div>
+        <div class="card"><b>TV</b> : fonctionne avec flèches et OK (sur la page principale).</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const pan = document.getElementById("pan");
+    const viewer = document.getElementById("viewer");
+    const resetBtn = document.getElementById("reset");
+
+    let pos = 0; // 0..100 (%)
+    function apply(){ pan.style.backgroundPosition = `${pos}% 50%`; }
+    function clamp(x){ return Math.max(0, Math.min(100, x)); }
+
+    // Mouse drag / touch drag
+    let dragging = false;
+    let startX = 0;
+    let startPos = 0;
+
+    function onDown(x){ dragging = true; startX = x; startPos = pos; }
+    function onMove(x){
+      if(!dragging) return;
+      const dx = x - startX;
+      const w = viewer.getBoundingClientRect().width || 800;
+      pos = clamp(startPos - (dx / w) * 120);
+      apply();
+    }
+    function onUp(){ dragging = false; }
+
+    viewer.addEventListener("mousedown", (e)=> onDown(e.clientX));
+    window.addEventListener("mousemove", (e)=> onMove(e.clientX));
+    window.addEventListener("mouseup", onUp);
+
+    viewer.addEventListener("touchstart", (e)=> onDown(e.touches[0].clientX), {passive:true});
+    viewer.addEventListener("touchmove", (e)=> onMove(e.touches[0].clientX), {passive:true});
+    viewer.addEventListener("touchend", onUp);
+
+    // Keyboard
+    window.addEventListener("keydown", (e)=>{
+      if(e.key === "ArrowLeft"){ pos = clamp(pos - 3); apply(); }
+      if(e.key === "ArrowRight"){ pos = clamp(pos + 3); apply(); }
+    });
+
+    resetBtn.addEventListener("click", ()=> { pos = 0; apply(); });
+    apply();
+  </script>
+</body>
+</html>

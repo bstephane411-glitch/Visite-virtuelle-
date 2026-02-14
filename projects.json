@@ -1,0 +1,34 @@
+[
+  {
+    "title": "Appartement centre-ville (T3)",
+    "type": "Immobilier",
+    "location": "Vichy",
+    "highlights": "360° + photos HDR · mode TV",
+    "tourUrl": "tour-appartement.html",
+    "youtubeId": ""
+  },
+  {
+    "title": "Maison avec jardin",
+    "type": "Immobilier",
+    "location": "Cusset",
+    "highlights": "360° + teaser réseaux",
+    "tourUrl": "tour-maison.html",
+    "youtubeId": ""
+  },
+  {
+    "title": "Boutique / commerce",
+    "type": "Entreprise",
+    "location": "Bellerive-sur-Allier",
+    "highlights": "360° + vidéo présentation",
+    "tourUrl": "tour-commerce.html",
+    "youtubeId": ""
+  },
+  {
+    "title": "Bien premium (drone)",
+    "type": "Immobilier",
+    "location": "Bassin vichyssois",
+    "highlights": "360° + drone",
+    "tourUrl": "tour-drone.html",
+    "youtubeId": ""
+  }
+]

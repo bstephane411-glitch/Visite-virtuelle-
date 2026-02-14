@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0b0f" />
+  <title>Signature Visuelle — Visites virtuelles & contenus premium</title>
+  <meta name="description" content="Visites virtuelles 360°, drone et contenus premium pour l’immobilier et les entreprises. Mode TV/Salon, YouTube, et galerie de réalisations." />
+  <style>
+    :root{
+      --bg:#0b0b0f; --card:#12121a; --muted:#a7a7b5; --text:#f3f3f8;
+      --line: rgba(255,255,255,.10); --accent:#8b5cf6;
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 25% 0%, rgba(139,92,246,.18), transparent 55%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(34,197,94,.10), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.35;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1100px; margin:0 auto; padding:22px}
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:14px;
+      position:sticky; top:0; backdrop-filter: blur(10px);
+      background: rgba(11,11,15,.65);
+      border-bottom:1px solid var(--line);
+      z-index:10;
+    }
+    .brand{display:flex; align-items:center; gap:10px; padding:14px 18px}
+    .logo{
+      width:34px; height:34px; border-radius:10px;
+      background: conic-gradient(from 180deg, #8b5cf6, #22c55e, #06b6d4, #8b5cf6);
+      box-shadow: 0 10px 30px rgba(139,92,246,.22);
+    }
+    nav{display:flex; gap:10px; padding:12px 18px; flex-wrap:wrap}
+    .pill{
+      padding:10px 12px; border-radius:999px; border:1px solid var(--line);
+      color:var(--muted); transition: .15s ease; font-size:14px;
+      background: rgba(255,255,255,.02);
+    }
+    .pill:hover{color:var(--text); border-color: rgba(255,255,255,.18)}
+    .pill.primary{color:var(--text); border-color: rgba(139,92,246,.55); box-shadow: 0 8px 26px rgba(139,92,246,.16) inset}
+    .hero{
+      display:grid; grid-template-columns: 1.15fr .85fr; gap:18px;
+      padding:26px 0 8px;
+      align-items:stretch;
+    }
+    .card{
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.25);
+    }
+    .h1{font-size: clamp(28px, 3.2vw, 46px); margin: 8px 0 10px; letter-spacing: -0.02em}
+    .lead{color:var(--muted); font-size: 16px; margin: 0 0 18px}
+    .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
+    .kpi{
+      border:1px solid var(--line); border-radius: 14px; padding:12px;
+      background: rgba(0,0,0,.20);
+    }
+    .kpi b{display:block; font-size:16px}
+    .kpi span{color:var(--muted); font-size:13px}
+    .ctaRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+    .btn{
+      border:1px solid var(--line); border-radius: 14px; padding:12px 14px;
+      background: rgba(255,255,255,.03); color: var(--text);
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      transition: .15s ease;
+      cursor:pointer;
+      font-weight: 600;
+    }
+    .btn:hover{transform: translateY(-1px); border-color: rgba(255,255,255,.20)}
+    .btn.accent{border-color: rgba(139,92,246,.65); background: rgba(139,92,246,.12)}
+    .btn.ghost{color:var(--muted)}
+    .small{font-size:13px; color:var(--muted)}
+    section{padding:18px 0}
+    .sectionTitle{display:flex; align-items:flex-end; justify-content:space-between; gap:10px; margin: 4px 0 10px}
+    .sectionTitle h2{margin:0; font-size: 18px; letter-spacing: -0.01em}
+    .sectionTitle p{margin:0; color:var(--muted); font-size: 13px}
+
+    /* Carousel */
+    .carouselWrap{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.18);
+      overflow:hidden;
+    }
+    .carouselHeader{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:12px 14px; border-bottom:1px solid var(--line);
+    }
+    .carouselControls{display:flex; gap:8px}
+    .iconBtn{
+      width:40px; height:40px; border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      cursor:pointer;
+    }
+    .iconBtn:hover{border-color: rgba(255,255,255,.22)}
+    .track{
+      display:flex; gap:12px;
+      padding:14px;
+      overflow:auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior:smooth;
+    }
+    .track::-webkit-scrollbar{height:10px}
+    .track::-webkit-scrollbar-thumb{background: rgba(255,255,255,.10); border-radius: 999px}
+    .slide{
+      min-width: min(360px, 86vw);
+      scroll-snap-align: start;
+      border:1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.03);
+      overflow:hidden;
+      display:flex; flex-direction:column;
+      outline:none;
+    }
+    .slide:focus{box-shadow: 0 0 0 3px rgba(139,92,246,.45)}
+    .cover{
+      height:190px;
+      background: #111;
+      display:flex; align-items:center; justify-content:center;
+      border-bottom:1px solid var(--line);
+      position:relative;
+    }
+    .badge{
+      position:absolute; top:12px; left:12px;
+      padding:6px 10px; border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.35);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .slideBody{padding:12px}
+    .slideBody h3{margin:0 0 6px; font-size: 16px}
+    .meta{color:var(--muted); font-size: 13px; display:flex; gap:10px; flex-wrap:wrap}
+    .meta span{display:inline-flex; gap:6px; align-items:center}
+    .slideFooter{
+      padding:12px; display:flex; gap:10px; flex-wrap:wrap; margin-top:auto;
+      border-top:1px solid var(--line);
+      background: rgba(0,0,0,.16);
+    }
+
+    .cols{
+      display:grid; grid-template-columns: 1fr 1fr; gap:18px;
+    }
+
+    /* Modal */
+    .modalBackdrop{
+      position:fixed; inset:0; background: rgba(0,0,0,.62);
+      display:none; align-items:center; justify-content:center;
+      padding:16px; z-index: 50;
+    }
+    .modal{
+      width:min(980px, 96vw);
+      border:1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(11,11,15,.95);
+      box-shadow: 0 40px 120px rgba(0,0,0,.45);
+      overflow:hidden;
+    }
+    .modalTop{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+    }
+    .modalTop h3{margin:0; font-size: 15px}
+    .modalContent{padding:14px}
+    .viewerGrid{
+      display:grid; grid-template-columns: 1.25fr .75fr; gap:14px;
+    }
+    .frame{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(0,0,0,.30);
+      min-height: 360px;
+    }
+    iframe{width:100%; height:100%; border:0}
+    .list{display:flex; flex-direction:column; gap:10px}
+    .row{border:1px solid var(--line); border-radius: 16px; padding:12px; background: rgba(255,255,255,.03)}
+    .row b{display:block}
+    .row span{color:var(--muted); font-size: 13px}
+
+    /* Leanback (TV) mode */
+    body.leanback .wrap{max-width:1200px}
+    body.leanback .pill{font-size:16px; padding:12px 14px}
+    body.leanback .btn{font-size:16px; padding:14px 16px}
+    body.leanback .slide{min-width: min(420px, 92vw)}
+    body.leanback .cover{height:240px}
+    body.leanback .h1{font-size: clamp(30px, 3.5vw, 52px)}
+    body.leanback .lead{font-size:18px}
+    .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px; padding:3px 7px; border-radius: 8px; border:1px solid var(--line); color:var(--muted);
+      background: rgba(0,0,0,.25)
+    }
+
+    footer{padding:22px 0 30px; color:var(--muted); font-size: 13px}
+    .sep{height:1px; background: var(--line); margin: 16px 0}
+
+    @media (max-width: 900px){
+      .hero{grid-template-columns: 1fr}
+      .cols{grid-template-columns:1fr}
+      .viewerGrid{grid-template-columns:1fr}
+      .frame{min-height: 300px}
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <div style="font-weight:800; letter-spacing:-0.02em">Signature Visuelle</div>
+        <div style="color:var(--muted); font-size:12px">Visites 360° · Drone · Contenus premium</div>
+      </div>
+    </div>
+    <nav aria-label="Navigation">
+      <a class="pill" href="#realisations">Réalisations</a>
+      <a class="pill" href="#tv">Mode TV</a>
+      <a class="pill" href="#youtube">YouTube</a>
+      <a class="pill primary" href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="card">
+        <div class="small">Vichy · Bassin vichyssois · Auvergne</div>
+        <h1 class="h1">Vendez et louez plus vite<br/>avec des contenus qui convertissent.</h1>
+        <p class="lead">
+          Visites virtuelles 360°, photos HDR, vidéo drone et versions “salon TV” pour présenter vos biens
+          en agence, en rendez‑vous et sur les réseaux.
+        </p>
+
+        <div class="grid2">
+          <div class="kpi"><b>+ Mandats</b><span>Présentation vendeur premium</span></div>
+          <div class="kpi"><b>+ Qualif</b><span>Moins de visites inutiles</span></div>
+          <div class="kpi"><b>+ Portée</b><span>YouTube / TV / réseaux</span></div>
+          <div class="kpi"><b>Livraison rapide</b><span>48h standard (option 24h)</span></div>
+        </div>
+
+        <div class="ctaRow">
+          <a class="btn accent" href="#realisations">Voir les réalisations</a>
+          <button class="btn" id="btnLeanback" type="button">Activer le mode TV</button>
+          <a class="btn ghost" href="#contact">Demander un devis</a>
+        </div>
+        <div class="small" style="margin-top:10px">
+          Astuce TV : utilisez la télécommande (flèches + <span class="kbd">OK</span>) pour naviguer.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 style="margin:0 0 10px; font-size:18px">Votre contenu, partout</h2>
+        <div class="list">
+          <div class="row">
+            <b>Sur votre site & vos annonces</b>
+            <span>Liens + QR codes, intégration simple, branding agence.</span>
+          </div>
+          <div class="row">
+            <b>Sur télévision en agence</b>
+            <span>Mode “salon” : grosses tuiles, navigation télécommande.</span>
+          </div>
+          <div class="row">
+            <b>Sur YouTube</b>
+            <span>Playlist de biens, shorts, et vidéos drone.</span>
+          </div>
+        </div>
+        <div class="sep"></div>
+        <div class="small">
+          Matériel : Insta360 X5 (360°) + drone (prise de vue aérienne).<br/>
+          *Le drone dépend des autorisations et conditions de vol.
+        </div>
+      </div>
+    </section>
+
+    <section id="realisations">
+      <div class="sectionTitle">
+        <div>
+          <h2>Réalisations</h2>
+          <p>Carousel optimisé TV (flèches ← →, Entrée/OK pour ouvrir)</p>
+        </div>
+        <div class="small" id="countLabel"></div>
+      </div>
+
+      <div class="carouselWrap" role="region" aria-label="Galerie des réalisations">
+        <div class="carouselHeader">
+          <div class="small">Sélection · Projets</div>
+          <div class="carouselControls">
+            <button class="iconBtn" id="prevBtn" aria-label="Précédent">◀</button>
+            <button class="iconBtn" id="nextBtn" aria-label="Suivant">▶</button>
+          </div>
+        </div>
+        <div class="track" id="track" tabindex="0" aria-label="Carousel">
+          <!-- Slides injectées en JS -->
+        </div>
+      </div>
+    </section>
+
+    <section class="cols" id="tv">
+      <div class="card">
+        <h2 style="margin:0 0 10px; font-size:18px">Mode TV / Salon (Smart TV)</h2>
+        <p class="lead" style="margin-bottom:10px">
+          Le site est utilisable sur une TV connectée via le navigateur web (Google TV, Android TV, Tizen, webOS…).
+          Le mode TV augmente les tailles, améliore les focus et privilégie la navigation télécommande.
+        </p>
+        <div class="row">
+          <b>Fonctionne avec :</b>
+          <span>flèches, OK/Entrée, retour, et plein écran.</span>
+        </div>
+        <div class="ctaRow" style="margin-top:12px">
+          <button class="btn accent" id="btnFullscreen" type="button">Plein écran</button>
+          <button class="btn" id="btnFocusCarousel" type="button">Focus carousel</button>
+        </div>
+        <div class="small" style="margin-top:10px">
+          Bonus : vous pouvez aussi “caster” depuis un téléphone/PC vers la TV (Chromecast/AirPlay selon votre équipement).
+        </div>
+      </div>
+
+      <div class="card" id="youtube">
+        <h2 style="margin:0 0 10px; font-size:18px">YouTube (exemple)</h2>
+        <p class="lead" style="margin-bottom:10px">
+          Remplacez l’ID ci‑dessous par votre chaîne/playlist. Sur TV, l’app YouTube est souvent le chemin le plus simple.
+        </p>
+        <div class="frame" style="min-height:280px">
+          <!-- Exemple: playlist ou vidéo -->
+          <iframe
+            title="YouTube embed"
+            src="https://www.youtube.com/embed/videoseries?list=PL9tY0BWXOZFtEXEMPLE"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <div class="small" style="margin-top:10px">
+          Astuce : créez une playlist “Visites virtuelles — Signature Visuelle” pour que vos biens soient visibles sur TV.
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="card">
+        <div class="sectionTitle" style="margin:0 0 10px">
+          <h2>Contact</h2>
+          <p>Remplacez les infos ci‑dessous</p>
+        </div>
+        <div class="cols">
+          <div class="row">
+            <b>Signature Visuelle</b>
+            <span>Vichy (03) · Auvergne</span><br/>
+            <span>Tél : <b>[VOTRE NUMÉRO]</b></span><br/>
+            <span>Email : <b>[VOTRE EMAIL]</b></span>
+          </div>
+          <div class="row">
+            <b>Demande rapide</b>
+            <span>Ajoutez un lien de formulaire (Typeform/Google Form) ou un bouton WhatsApp.</span>
+            <div class="ctaRow" style="margin-top:10px">
+              <a class="btn accent" href="mailto:[VOTRE EMAIL]?subject=Demande%20de%20devis%20—%20Signature%20Visuelle">Envoyer un email</a>
+              <a class="btn" href="#realisations">Voir les projets</a>
+            </div>
+          </div>
+        </div>
+        <div class="small" style="margin-top:12px">
+          Pour ajouter/mettre à jour vos réalisations, modifiez simplement le tableau <span class="kbd">projects</span> dans le fichier (voir en bas du code JS).
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="sep"></div>
+      <div>© <span id="year"></span> Signature Visuelle · Site vitrine (template). </div>
+    </footer>
+  </main>
+
+  <!-- Modal projet -->
+  <div class="modalBackdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-label="Détails du projet">
+    <div class="modal">
+      <div class="modalTop">
+        <h3 id="modalTitle">Projet</h3>
+        <button class="iconBtn" id="closeModal" aria-label="Fermer">✕</button>
+      </div>
+      <div class="modalContent">
+        <div class="viewerGrid">
+          <div class="frame" id="tourFrameWrap">
+            <iframe id="tourFrame" title="Visite virtuelle" src="about:blank" loading="lazy"></iframe>
+          </div>
+          <div class="list">
+            <div class="row">
+              <b>Infos</b>
+              <span id="modalMeta">—</span>
+            </div>
+            <div class="row">
+              <b>Vidéo / YouTube</b>
+              <span class="small">Optionnel : vidéo de présentation du bien / drone.</span>
+              <div class="frame" style="min-height:200px; margin-top:10px">
+                <iframe id="ytFrame" title="YouTube vidéo" src="about:blank" loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen></iframe>
+              </div>
+            </div>
+            <div class="row">
+              <b>Partager</b>
+              <span class="small">Sur TV : ouvrez le site dans le navigateur TV ou via l’app YouTube (playlist).</span>
+              <div class="ctaRow" style="margin-top:10px">
+                <a class="btn" id="openTour" href="#" target="_blank" rel="noreferrer">Ouvrir la visite</a>
+                <a class="btn" id="openYT" href="#" target="_blank" rel="noreferrer">Ouvrir YouTube</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="small" style="margin-top:10px">
+          TV : flèches ← → pour changer de slide ; <span class="kbd">OK</span> pour ouvrir ; <span class="kbd">Esc</span> pour fermer.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Données : remplacez ces exemples par VOS réalisations ---
+    // - coverSvg : image de couverture (placeholder SVG).
+    // - tourUrl : lien vers la visite (Marzipano, Matterport, Kuula, etc.)
+    // - youtubeId : l'ID de la vidéo (ex: dQw4w9WgXcQ). Laissez vide si none.
+    // --- Données : chargées via projects.json (admin) ou localStorage ---
+    // Ordre de priorité:
+    // 1) /projects.json (si présent sur l'hébergement)
+    // 2) localStorage (si configuré via admin.html)
+    // 3) fallback intégré (démo)
+    const FALLBACK_PROJECTS = [
+      {
+        title: "Appartement centre-ville (T3)",
+        type: "Immobilier",
+        location: "Vichy",
+        highlights: "360° + photos HDR · mode TV",
+        tourUrl: "tour-appartement.html",
+        youtubeId: ""
+      },
+      {
+        title: "Maison avec jardin",
+        type: "Immobilier",
+        location: "Cusset",
+        highlights: "360° + teaser réseaux",
+        tourUrl: "tour-maison.html",
+        youtubeId: ""
+      },
+      {
+        title: "Boutique / commerce",
+        type: "Entreprise",
+        location: "Bellerive-sur-Allier",
+        highlights: "360° + vidéo présentation",
+        tourUrl: "tour-commerce.html",
+        youtubeId: ""
+      },
+      {
+        title: "Bien premium (drone)",
+        type: "Immobilier",
+        location: "Bassin vichyssois",
+        highlights: "360° + drone",
+        tourUrl: "tour-drone.html",
+        youtubeId: ""
+      }
+    ];
+
+    async function loadProjects(){
+      // try projects.json
+      try{
+        const res = await fetch("projects.json", {cache:"no-store"});
+        if(res.ok){
+          const data = await res.json();
+          if(Array.isArray(data) && data.length) return sanitizeProjects(data);
+        }
+      }catch(e){ /* ignore */ }
+
+      // try localStorage
+      try{
+        const raw = localStorage.getItem("sv_projects_v1");
+        if(raw){
+          const data = JSON.parse(raw);
+          if(Array.isArray(data) && data.length) return sanitizeProjects(data);
+        }
+      }catch(e){ /* ignore */ }
+
+      return sanitizeProjects(FALLBACK_PROJECTS);
+    }
+
+    function sanitizeProjects(arr){
+      // Hardening: keep only expected fields and coerce to strings
+      return arr.map(p => ({
+        title: String(p.title || "").slice(0,120) || "Projet",
+        type: String(p.type || "Immobilier").slice(0,40),
+        location: String(p.location || "").slice(0,60),
+        highlights: String(p.highlights || "").slice(0,120),
+        tourUrl: String(p.tourUrl || "").slice(0,500),
+        youtubeId: String(p.youtubeId || "").slice(0,32),
+      }));
+    }
+
+    // Will be set after loadProjects()
+    let projects = [];
+
+
+    // Cover placeholders générés en SVG (sans images externes)
+    const svgCovers = [
+      svgGradient("#8b5cf6","#22c55e","Vichy"),
+      svgGradient("#06b6d4","#8b5cf6","Cusset"),
+      svgGradient("#22c55e","#06b6d4","Pro"),
+      svgGradient("#f59e0b","#8b5cf6","Drone"),
+    ];
+
+    function svgGradient(a,b,label){
+      const txt = encodeURIComponent(label);
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="${a}" stop-opacity="0.92"/>
+              <stop offset="1" stop-color="${b}" stop-opacity="0.92"/>
+            </linearGradient>
+            <filter id="blur">
+              <feGaussianBlur stdDeviation="24" />
+            </filter>
+          </defs>
+          <rect width="1200" height="700" fill="#0b0b0f"/>
+          <circle cx="250" cy="210" r="240" fill="url(#g)" filter="url(#blur)" opacity="0.65"/>
+          <circle cx="900" cy="520" r="320" fill="url(#g)" filter="url(#blur)" opacity="0.45"/>
+          <rect x="60" y="60" width="1080" height="580" rx="34" fill="rgba(11,11,15,.25)" stroke="rgba(255,255,255,.20)"/>
+          <text x="110" y="190" fill="rgba(255,255,255,.92)" font-size="72" font-family="ui-sans-serif, system-ui" font-weight="800">${txt}</text>
+          <text x="110" y="265" fill="rgba(255,255,255,.78)" font-size="30" font-family="ui-sans-serif, system-ui">Signature Visuelle · Réalisation</text>
+          <text x="110" y="560" fill="rgba(255,255,255,.80)" font-size="26" font-family="ui-sans-serif, system-ui">Visite 360° · Drone · Contenus</text>
+        </svg>`;
+      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    }
+
+    // --- UI ---
+    const track = document.getElementById("track");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const countLabel = document.getElementById("countLabel");
+    const year = document.getElementById("year");
+    year.textContent = new Date().getFullYear();
+
+    // Modal
+    const backdrop = document.getElementById("modalBackdrop");
+    const closeModalBtn = document.getElementById("closeModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalMeta = document.getElementById("modalMeta");
+    const tourFrame = document.getElementById("tourFrame");
+    const ytFrame = document.getElementById("ytFrame");
+    const openTour = document.getElementById("openTour");
+    const openYT = document.getElementById("openYT");
+
+    // TV mode
+    const btnLeanback = document.getElementById("btnLeanback");
+    const btnFullscreen = document.getElementById("btnFullscreen");
+    const btnFocusCarousel = document.getElementById("btnFocusCarousel");
+
+    let activeIndex = 0;
+
+    function buildSlides(){
+      track.innerHTML = "";
+      projects.forEach((p, i) => {
+        const slide = document.createElement("div");
+        slide.className = "slide";
+        slide.tabIndex = 0;
+        slide.setAttribute("role","group");
+        slide.setAttribute("aria-label", `${i+1} sur ${projects.length}: ${p.title}`);
+
+        const cover = document.createElement("div");
+        cover.className = "cover";
+        cover.style.background = `url('${svgCovers[i % svgCovers.length]}') center / cover no-repeat`;
+        cover.innerHTML = `<div class="badge">${escapeHtml(p.type)}</div>`;
+
+        const body = document.createElement("div");
+        body.className = "slideBody";
+        body.innerHTML = `
+          <h3>${escapeHtml(p.title)}</h3>
+          <div class="meta">
+            <span>📍 ${escapeHtml(p.location)}</span>
+            <span>✨ ${escapeHtml(p.highlights)}</span>
+          </div>`;
+
+        const footer = document.createElement("div");
+        footer.className = "slideFooter";
+        const btn1 = document.createElement("button");
+        btn1.className = "btn accent";
+        btn1.type = "button";
+        btn1.textContent = "Voir";
+        btn1.addEventListener("click", () => openProject(i));
+
+        const btn2 = document.createElement("a");
+        btn2.className = "btn";
+        btn2.textContent = "Lien direct";
+        btn2.href = p.tourUrl || "#";
+        btn2.target = "_blank";
+        btn2.rel = "noreferrer";
+        btn2.addEventListener("click", (e) => { if(!p.tourUrl) e.preventDefault(); });
+
+        footer.appendChild(btn1);
+        footer.appendChild(btn2);
+
+        slide.appendChild(cover);
+        slide.appendChild(body);
+        slide.appendChild(footer);
+
+        slide.addEventListener("click", (e) => {
+          // clic sur carte ouvre, sauf si clic sur lien
+          if(e.target.tagName.toLowerCase() === "a") return;
+          openProject(i);
+        });
+
+        slide.addEventListener("focus", () => { activeIndex = i; updateCount(); });
+
+        track.appendChild(slide);
+      });
+      updateCount();
+    }
+
+    function updateCount(){
+      countLabel.textContent = `${activeIndex+1} / ${projects.length}`;
+    }
+
+    function openProject(i){
+      activeIndex = i;
+      updateCount();
+      const p = projects[i];
+      modalTitle.textContent = p.title;
+      modalMeta.textContent = `${p.type} · ${p.location} · ${p.highlights}`;
+
+      // Visite
+      if(p.tourUrl){
+        tourFrame.src = p.tourUrl;
+        openTour.href = p.tourUrl;
+      } else {
+        tourFrame.src = "about:blank";
+        openTour.href = "#";
+      }
+
+      // YouTube
+      if(p.youtubeId){
+        ytFrame.src = `https://www.youtube.com/embed/${p.youtubeId}`;
+        openYT.href = `https://www.youtube.com/watch?v=${p.youtubeId}`;
+      } else {
+        ytFrame.src = "about:blank";
+        openYT.href = "#";
+      }
+
+      backdrop.style.display = "flex";
+      closeModalBtn.focus();
+    }
+
+    function closeModal(){
+      backdrop.style.display = "none";
+      tourFrame.src = "about:blank";
+      ytFrame.src = "about:blank";
+      // remettre le focus sur la slide active
+      const slides = [...track.querySelectorAll(".slide")];
+      if(slides[activeIndex]) slides[activeIndex].focus();
+    }
+
+    closeModalBtn.addEventListener("click", closeModal);
+    backdrop.addEventListener("click", (e) => {
+      if(e.target === backdrop) closeModal();
+    });
+
+    // Carousel navigation helpers
+    function scrollToIndex(i){
+      const slides = [...track.querySelectorAll(".slide")];
+      const clamped = Math.max(0, Math.min(i, slides.length-1));
+      activeIndex = clamped;
+      updateCount();
+      slides[clamped].scrollIntoView({behavior:"smooth", inline:"start", block:"nearest"});
+      slides[clamped].focus({preventScroll:true});
+    }
+
+    prevBtn.addEventListener("click", ()=> scrollToIndex(activeIndex - 1));
+    nextBtn.addEventListener("click", ()=> scrollToIndex(activeIndex + 1));
+
+    // Keyboard (TV remote) handling
+    document.addEventListener("keydown", (e) => {
+      const isModalOpen = backdrop.style.display === "flex";
+      if(isModalOpen && (e.key === "Escape" || e.key === "Backspace")){
+        e.preventDefault();
+        closeModal();
+        return;
+      }
+      // flèches : navigue dans le carousel si focus dedans ou si mode TV activé
+      const focusEl = document.activeElement;
+      const isInCarousel = focusEl && (focusEl.id === "track" || focusEl.classList?.contains("slide") || focusEl.closest?.("#track"));
+      const tvMode = document.body.classList.contains("leanback");
+
+      if((isInCarousel || tvMode) && !isModalOpen){
+        if(e.key === "ArrowLeft"){ e.preventDefault(); scrollToIndex(activeIndex - 1); }
+        if(e.key === "ArrowRight"){ e.preventDefault(); scrollToIndex(activeIndex + 1); }
+        if(e.key === "Enter"){ e.preventDefault(); openProject(activeIndex); }
+      }
+    });
+
+    // Leanback toggle
+    btnLeanback.addEventListener("click", () => {
+      document.body.classList.toggle("leanback");
+      btnLeanback.textContent = document.body.classList.contains("leanback") ? "Désactiver le mode TV" : "Activer le mode TV";
+      // focus carousel pour faciliter navigation TV
+      setTimeout(() => track.focus(), 50);
+    });
+
+    // Fullscreen
+    btnFullscreen.addEventListener("click", async () => {
+      try{
+        if(!document.fullscreenElement){
+          await document.documentElement.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch(err){
+        alert("Plein écran non disponible sur ce navigateur.");
+      }
+    });
+
+    btnFocusCarousel.addEventListener("click", () => track.focus());
+
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, (c) => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[c]));
+    }
+
+    init();
+
+    async function init(){
+      projects = await loadProjects();
+      buildSlides();
+    }
+  </script>
+</body>
+</html>

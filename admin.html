@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin — Signature Visuelle</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root{ --bg:#0b0b0f; --muted:#a7a7b5; --text:#f3f3f8; --line: rgba(255,255,255,.10); }
+    *{box-sizing:border-box}
+    body{margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: radial-gradient(1200px 600px at 20% 0%, rgba(139,92,246,.18), transparent 55%), var(--bg);
+      color:var(--text);}
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:1100px; margin:0 auto; padding:22px}
+    .top{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 0}
+    .brand{display:flex; gap:10px; align-items:center}
+    .logo{width:34px; height:34px; border-radius:10px; background: conic-gradient(from 180deg, #8b5cf6, #22c55e, #06b6d4, #8b5cf6);}
+    .pill{padding:10px 12px; border-radius:999px; border:1px solid var(--line); color:var(--muted); background: rgba(255,255,255,.02); font-size:14px}
+    .card{border:1px solid var(--line); border-radius:18px; background: rgba(255,255,255,.03); padding:16px; box-shadow: 0 18px 50px rgba(0,0,0,.25);}
+    .grid{display:grid; grid-template-columns: 1fr 1fr; gap:14px}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .btn{border:1px solid var(--line); border-radius:14px; padding:10px 12px; background: rgba(255,255,255,.03); color:var(--text); cursor:pointer; font-weight:700}
+    .btn.accent{border-color: rgba(139,92,246,.65); background: rgba(139,92,246,.12)}
+    .btn.danger{border-color: rgba(239,68,68,.55); background: rgba(239,68,68,.10)}
+    input, select{
+      width:100%; padding:10px 12px; border-radius:14px; border:1px solid var(--line);
+      background: rgba(0,0,0,.25); color:var(--text); outline:none;
+    }
+    label{display:block; color:var(--muted); font-size:13px; margin: 10px 0 6px}
+    table{width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:16px; border:1px solid var(--line)}
+    th,td{padding:10px; border-bottom:1px solid var(--line); vertical-align:top}
+    th{color:var(--muted); text-align:left; font-size:13px; background: rgba(0,0,0,.25)}
+    tr:last-child td{border-bottom:none}
+    .small{color:var(--muted); font-size:13px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:12px}
+    .hidden{display:none}
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div style="font-weight:900; letter-spacing:-.02em">Signature Visuelle — Admin</div>
+          <div class="small">Gestion des réalisations : localStorage + export JSON</div>
+        </div>
+      </div>
+      <div class="row">
+        <a class="pill" href="index.html">← Retour site</a>
+        <button class="btn" id="lockBtn">Verrouiller</button>
+      </div>
+    </div>
+
+    <div class="card" id="gate">
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap">
+        <div>
+          <div style="font-weight:800; font-size:18px">Accès admin</div>
+          <div class="small">Protection simple (client-side). Pour une vraie sécurité, protégez la page via l’hébergeur.</div>
+        </div>
+        <div class="small mono">Clé: <span id="keyHint">non définie</span></div>
+      </div>
+      <div class="grid" style="margin-top:12px">
+        <div>
+          <label>Mot de passe admin (à définir une fois)</label>
+          <input id="setPass" type="password" placeholder="Définir un mot de passe" />
+          <div class="row" style="margin-top:10px">
+            <button class="btn accent" id="setPassBtn">Définir</button>
+            <button class="btn" id="enterBtn">Entrer</button>
+          </div>
+          <div class="small" style="margin-top:10px">Le mot de passe est stocké en <span class="mono">localStorage</span> sur cet appareil.</div>
+        </div>
+        <div>
+          <label>Mot de passe (pour entrer)</label>
+          <input id="enterPass" type="password" placeholder="Saisir le mot de passe" />
+          <div class="small" style="margin-top:10px">Astuce : admin sur PC, site sur TV.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card hidden" id="app">
+      <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:12px; flex-wrap:wrap">
+        <div>
+          <div style="font-weight:900; font-size:18px">Réalisations</div>
+          <div class="small">Ajout / édition → local + export <span class="mono">projects.json</span></div>
+        </div>
+        <div class="row">
+          <button class="btn" id="importBtn">Importer JSON</button>
+          <button class="btn" id="exportBtn">Exporter projects.json</button>
+          <button class="btn danger" id="resetBtn">Réinitialiser</button>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top:14px">
+        <div>
+          <div style="font-weight:800">Ajouter / modifier</div>
+          <input type="hidden" id="editIndex" value="-1" />
+
+          <label>Titre</label>
+          <input id="title" placeholder="Ex: Appartement T3 — centre-ville" />
+
+          <label>Type</label>
+          <select id="type">
+            <option>Immobilier</option>
+            <option>Entreprise</option>
+            <option>Tourisme</option>
+            <option>Autre</option>
+          </select>
+
+          <label>Localisation</label>
+          <input id="location" placeholder="Ex: Vichy / Cusset / ..." />
+
+          <label>Highlights (accroche courte)</label>
+          <input id="highlights" placeholder="Ex: 360° + photos HDR · mode TV" />
+
+          <label>Lien visite (tourUrl)</label>
+          <input id="tourUrl" placeholder="Ex: https://...  ou  tour-xxx.html" />
+
+          <label>YouTube ID (optionnel)</label>
+          <input id="youtubeId" placeholder="Ex: dQw4w9WgXcQ" />
+
+          <div class="row" style="margin-top:12px">
+            <button class="btn accent" id="saveBtn">Enregistrer</button>
+            <button class="btn" id="newBtn">Nouveau</button>
+          </div>
+
+          <div class="small" style="margin-top:10px">
+            Workflow pro : exportez <span class="mono">projects.json</span> puis uploadez-le à côté de <span class="mono">index.html</span>.
+          </div>
+        </div>
+
+        <div>
+          <div style="font-weight:800">Liste</div>
+          <div class="small">Éditer / supprimer</div>
+          <div style="margin-top:10px; overflow:auto">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:34%">Titre</th>
+                  <th>Type</th>
+                  <th>Lieu</th>
+                  <th style="width:24%">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="small" style="margin-top:14px">
+        Stockage: <span class="mono">sv_projects_v1</span>. Change d’ordinateur → export/import JSON.
+      </div>
+    </div>
+
+    <input type="file" id="file" accept="application/json" class="hidden" />
+  </div>
+
+  <script>
+    const KEY_PASS = "sv_admin_pass_v1";
+    const KEY_PROJ = "sv_projects_v1";
+
+    const gate = document.getElementById("gate");
+    const app = document.getElementById("app");
+    const keyHint = document.getElementById("keyHint");
+
+    const setPass = document.getElementById("setPass");
+    const enterPass = document.getElementById("enterPass");
+    const setPassBtn = document.getElementById("setPassBtn");
+    const enterBtn = document.getElementById("enterBtn");
+    const lockBtn = document.getElementById("lockBtn");
+
+    const tbody = document.getElementById("tbody");
+    const editIndex = document.getElementById("editIndex");
+
+    const titleEl = document.getElementById("title");
+    const typeEl = document.getElementById("type");
+    const locationEl = document.getElementById("location");
+    const highlightsEl = document.getElementById("highlights");
+    const tourUrlEl = document.getElementById("tourUrl");
+    const youtubeIdEl = document.getElementById("youtubeId");
+
+    const saveBtn = document.getElementById("saveBtn");
+    const newBtn = document.getElementById("newBtn");
+    const exportBtn = document.getElementById("exportBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const importBtn = document.getElementById("importBtn");
+    const fileInput = document.getElementById("file");
+
+    function getPass(){ return localStorage.getItem(KEY_PASS) || ""; }
+    function setPassValue(p){ localStorage.setItem(KEY_PASS, p); }
+
+    function getProjects(){
+      try{
+        const raw = localStorage.getItem(KEY_PROJ);
+        if(!raw) return [];
+        const data = JSON.parse(raw);
+        return Array.isArray(data) ? data : [];
+      }catch(e){ return []; }
+    }
+    function setProjects(arr){ localStorage.setItem(KEY_PROJ, JSON.stringify(arr, null, 2)); }
+
+    function sanitizeProject(p){
+      return {
+        title: String(p.title||"Projet").slice(0,120),
+        type: String(p.type||"Immobilier").slice(0,40),
+        location: String(p.location||"").slice(0,60),
+        highlights: String(p.highlights||"").slice(0,120),
+        tourUrl: String(p.tourUrl||"").slice(0,500),
+        youtubeId: String(p.youtubeId||"").slice(0,32)
+      };
+    }
+
+    function updateKeyHint(){ keyHint.textContent = getPass() ? "définie" : "non définie"; }
+    updateKeyHint();
+
+    function showApp(){ gate.classList.add("hidden"); app.classList.remove("hidden"); lockBtn.textContent="Verrouiller"; render(); }
+    function showGate(){ app.classList.add("hidden"); gate.classList.remove("hidden"); lockBtn.textContent="Déverrouiller"; }
+
+    setPassBtn.addEventListener("click", () => {
+      const p = setPass.value.trim();
+      if(p.length < 4) return alert("Au moins 4 caractères.");
+      setPassValue(p); setPass.value=""; updateKeyHint();
+      alert("Mot de passe défini sur cet appareil.");
+    });
+
+    enterBtn.addEventListener("click", () => {
+      const p = enterPass.value.trim();
+      if(!getPass()) return alert("Définissez d’abord un mot de passe.");
+      if(p !== getPass()) return alert("Mot de passe incorrect.");
+      enterPass.value=""; showApp();
+    });
+
+    lockBtn.addEventListener("click", () => {
+      if(app.classList.contains("hidden")){
+        const p = prompt("Mot de passe admin :");
+        if(p === null) return;
+        if(p.trim() !== getPass()) return alert("Mot de passe incorrect.");
+        showApp();
+      }else{
+        showGate();
+      }
+    });
+
+    function clearForm(){
+      editIndex.value="-1";
+      titleEl.value=""; typeEl.value="Immobilier"; locationEl.value="";
+      highlightsEl.value=""; tourUrlEl.value=""; youtubeIdEl.value="";
+      titleEl.focus();
+    }
+    newBtn.addEventListener("click", clearForm);
+
+    saveBtn.addEventListener("click", () => {
+      const p = sanitizeProject({
+        title:titleEl.value, type:typeEl.value, location:locationEl.value,
+        highlights:highlightsEl.value, tourUrl:tourUrlEl.value, youtubeId:youtubeIdEl.value
+      });
+      const list = getProjects();
+      const i = parseInt(editIndex.value, 10);
+      if(isNaN(i) || i<0) list.push(p); else list[i]=p;
+      setProjects(list);
+      clearForm();
+      render();
+    });
+
+    function render(){
+      const list = getProjects();
+      if(list.length===0){
+        tbody.innerHTML = `<tr><td colspan="4" class="small">Aucune réalisation. Ajoutez votre première entrée à gauche.</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = "";
+      list.forEach((p,i)=>{
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><b>${esc(p.title)}</b><div class="small">${esc(p.highlights||"")}</div></td>
+          <td>${esc(p.type||"")}</td>
+          <td>${esc(p.location||"")}</td>
+          <td>
+            <div class="row">
+              <button class="btn" data-act="edit" data-i="${i}">Éditer</button>
+              <button class="btn danger" data-act="del" data-i="${i}">Supprimer</button>
+            </div>
+          </td>`;
+        tbody.appendChild(tr);
+      });
+
+      tbody.querySelectorAll("button").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const act = btn.getAttribute("data-act");
+          const i = parseInt(btn.getAttribute("data-i"), 10);
+          const list2 = getProjects();
+          if(act==="edit"){
+            const p = list2[i];
+            editIndex.value=String(i);
+            titleEl.value=p.title||""; typeEl.value=p.type||"Immobilier"; locationEl.value=p.location||"";
+            highlightsEl.value=p.highlights||""; tourUrlEl.value=p.tourUrl||""; youtubeIdEl.value=p.youtubeId||"";
+            window.scrollTo({top:0, behavior:"smooth"});
+          }else if(act==="del"){
+            if(!confirm("Supprimer ?")) return;
+            list2.splice(i,1); setProjects(list2); render();
+          }
+        });
+      });
+    }
+
+    exportBtn.addEventListener("click", () => {
+      const list = getProjects();
+      if(list.length===0) return alert("Rien à exporter.");
+      const blob = new Blob([JSON.stringify(list, null, 2)], {type:"application/json"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "projects.json";
+      document.body.appendChild(a); a.click(); a.remove();
+    });
+
+    importBtn.addEventListener("click", ()=> fileInput.click());
+    fileInput.addEventListener("change", async ()=>{
+      const file = fileInput.files && fileInput.files[0];
+      if(!file) return;
+      try{
+        const txt = await file.text();
+        const data = JSON.parse(txt);
+        if(!Array.isArray(data)) return alert("JSON invalide (tableau attendu).");
+        setProjects(data.map(sanitizeProject));
+        render();
+      }catch(e){ alert("Import impossible : JSON invalide."); }
+      fileInput.value="";
+    });
+
+    resetBtn.addEventListener("click", ()=>{
+      if(!confirm("Réinitialiser la liste ?")) return;
+      localStorage.removeItem(KEY_PROJ);
+      clearForm(); render();
+    });
+
+    function esc(s){ return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c])); }
+
+    clearForm(); render();
+  </script>
+</body>
+</html>
